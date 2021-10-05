@@ -11,7 +11,6 @@ import java.util.*
 
 class TablasAdapter(private val allItems: List<Tabla>) :
     RecyclerView.Adapter<TablasAdapter.ViewHolder>(), Filterable {
-    private val filterItems: List<Tabla> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = TablaItemsBinding.inflate(LayoutInflater.from(parent.context))
@@ -33,6 +32,7 @@ class TablasAdapter(private val allItems: List<Tabla>) :
             binding.txtCodigoSAP.text = table.codigoSAP
         }
     }
+
     override fun getFilter(): Filter {
         return filter
     }
@@ -40,13 +40,15 @@ class TablasAdapter(private val allItems: List<Tabla>) :
     private val filter: Filter = object : Filter() {
         var filteredList: MutableList<Tabla> = arrayListOf()
         override fun performFiltering(constraint: CharSequence): FilterResults {
-
             if (constraint.isEmpty()) {
                 filteredList.addAll(allItems)
             } else {
-                val filterPattern = constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
+                val filterPattern =
+                    constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
                 for (item in 0..allItems.size) {
-                    if (allItems[item].codigoSAP.lowercase(Locale.getDefault()).contains(filterPattern)) {
+                    if (allItems[item].codigoSAP.lowercase(Locale.getDefault())
+                            .contains(filterPattern)
+                    ) {
                         filteredList.add(allItems[item])
                     }
                 }

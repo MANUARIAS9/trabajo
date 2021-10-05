@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.trabajo.data.model.Tabla
 import com.example.trabajo.databinding.ActivityMainBinding
 import com.example.trabajo.ui.login.TablasAdapter
-import com.example.trabajo.ui.login.afterTextChanged
+import com.example.trabajo.utils.afterTextChanged
 
 val tablaInfo = listOf(
     Tabla(
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val x = filterTables("x")
+        filterTables("x")
 
         adapter = TablasAdapter(listOf())
         binding.rcViewTablas.adapter = adapter
