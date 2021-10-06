@@ -2,8 +2,8 @@ package com.example.trabajo
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.trabajo.data.model.Tabla
 import com.example.trabajo.databinding.ActivityMainBinding
@@ -49,40 +49,31 @@ class MainActivity : AppCompatActivity() {
 
         adapter = TablasAdapter(tablaInfo)
         binding.rcViewTablas.adapter = adapter
-        binding.rcViewTablas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.rcViewTablas.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         binding.filterDataEditText.afterTextChanged {
             adapter.filter.filter(it)
         }
 
         binding.fabSendEmail.setOnClickListener {
-            val emailIntent = Intent(
-                Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto", "manuariash9@gmail.com", null
-                )
-            )
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Inventarios bodega")
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Holi")
-            startActivity(Intent.createChooser(emailIntent, null));
+            val email = "manuariash9@gmail.com"
+            val subject = "Inventario bodegas"
+            var body = ""
+
+            tablaInfo.forEach {
+                body += "- ${it.codigoSAP}: ${it.descripcionCompleta} \n"
+            }
+
+            val uri = Uri.parse("mailto: $email")
+                .buildUpon()
+                .appendQueryParameter("subject", subject)
+                .appendQueryParameter("body", body)
+                .build()
+
+            val emailIntent = Intent(Intent.ACTION_SENDTO, uri)
+            startActivity(Intent.createChooser(emailIntent, null))
         }
     }
-
-    private fun filterTables(text: String): List<Tabla> {
-        return tablaInfo.filter { s ->
-            s.bodegaDestino == text
-                    || s.bodegaOrigen == text
-                    || s.codigoSAP == text
-                    || s.numeroDeParte == text
-                    || s.descripcionCompleta == text
-                    || s.fabricante == text
-                    || s.plataforma == text
-                    || s.cantidadRequerida == text
-                    || s.bodegaDestino == text
-                    || s.justificacionDeTrasladoSitio == text
-                    || s.ticket == text
-
-        }
-    }
-
 
 }
