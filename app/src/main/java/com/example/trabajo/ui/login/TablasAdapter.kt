@@ -9,8 +9,13 @@ import com.example.trabajo.data.model.Tabla
 import com.example.trabajo.databinding.TablaItemsBinding
 import java.util.*
 
-class TablasAdapter(private val allItems: List<Tabla>) :
+class TablasAdapter(private var allItems: List<Tabla>) :
     RecyclerView.Adapter<TablasAdapter.ViewHolder>(), Filterable {
+    var filteredList: MutableList<Tabla>
+
+    init {
+        filteredList = allItems.toMutableList()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = TablaItemsBinding.inflate(LayoutInflater.from(parent.context))
@@ -18,12 +23,12 @@ class TablasAdapter(private val allItems: List<Tabla>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = allItems[0]
+        val item = filteredList[position]
         holder.binding(item)
     }
 
     override fun getItemCount(): Int {
-        return allItems.size
+        return filteredList.size
     }
 
     inner class ViewHolder(private val binding: TablaItemsBinding) :
@@ -38,14 +43,14 @@ class TablasAdapter(private val allItems: List<Tabla>) :
     }
 
     private val filter: Filter = object : Filter() {
-        var filteredList: MutableList<Tabla> = arrayListOf()
         override fun performFiltering(constraint: CharSequence): FilterResults {
+            filteredList.clear()
             if (constraint.isEmpty()) {
                 filteredList.addAll(allItems)
             } else {
                 val filterPattern =
                     constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
-                for (item in 0..allItems.size) {
+                for (item in allItems.indices) {
                     if (allItems[item].codigoSAP.lowercase(Locale.getDefault())
                             .contains(filterPattern)
                     ) {
@@ -59,7 +64,13 @@ class TablasAdapter(private val allItems: List<Tabla>) :
         }
 
         override fun publishResults(charSequence: CharSequence?, filterResults: FilterResults) {
-            filteredList = filterResults.values as MutableList<Tabla>
+            val mFilteredList = filterResults.values
+
+            filteredList = if(mFilteredList == null ){
+                mutableListOf()
+            }else {
+                mFilteredList as MutableList<Tabla>
+            }
             notifyDataSetChanged()
         }
     }

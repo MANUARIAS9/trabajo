@@ -20,6 +20,18 @@ val tablaInfo = listOf(
         bodegaDestino = "bodegaDestino",
         justificacionDeTrasladoSitio = "justificacionDeTrasladoSitio",
         ticket = "ticket",
+    ),
+    Tabla(
+        bodegaOrigen = "bodegaOrigen",
+        codigoSAP = "kli",
+        numeroDeParte = "numeroDeParte",
+        descripcionCompleta = "descripcionCompleta",
+        fabricante = "fabricante",
+        plataforma = "plataforma",
+        cantidadRequerida = "cantidadRequerida",
+        bodegaDestino = "bodegaDestino",
+        justificacionDeTrasladoSitio = "justificacionDeTrasladoSitio",
+        ticket = "ticket",
     )
 )
 
@@ -33,11 +45,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        filterTables("x")
-
-        adapter = TablasAdapter(listOf())
+        adapter = TablasAdapter(tablaInfo)
         binding.rcViewTablas.adapter = adapter
-        binding.rcViewTablas.layoutManager = LinearLayoutManager(this)
+        binding.rcViewTablas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         binding.filterDataEditText.afterTextChanged {
             adapter.filter.filter(it)

@@ -1,18 +1,16 @@
 package com.example.trabajo.ui.login
 
 import android.app.Activity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.trabajo.MainActivity
 import com.example.trabajo.databinding.ActivityLoginBinding
-
-import com.example.trabajo.R
 import com.example.trabajo.utils.afterTextChanged
 import com.example.trabajo.utils.goToActivity
 
@@ -65,9 +63,6 @@ class LoginActivity : AppCompatActivity() {
                 updateUiWithUser(loginResult.success)
             }
             setResult(Activity.RESULT_OK)
-
-            //Complete and destroy login activity once successful
-            finish()
         })
 
         username.afterTextChanged {
@@ -104,13 +99,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
-        Toast.makeText(
-            applicationContext,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
+        goToActivity<MainActivity>()
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
