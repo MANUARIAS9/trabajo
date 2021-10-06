@@ -1,5 +1,7 @@
 package com.example.trabajo
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +13,30 @@ import com.example.trabajo.utils.afterTextChanged
 val tablaInfo = listOf(
     Tabla(
         bodegaOrigen = "bodegaOrigen",
+        codigoSAP = "codigoSAP",
+        numeroDeParte = "numeroDeParte",
+        descripcionCompleta = "descripcionCompleta",
+        fabricante = "fabricante",
+        plataforma = "plataforma",
+        cantidadRequerida = "cantidadRequerida",
+        bodegaDestino = "bodegaDestino",
+        justificacionDeTrasladoSitio = "justificacionDeTrasladoSitio",
+        ticket = "ticket",
+    ),
+    Tabla(
+        bodegaOrigen = "Pereira",
+        codigoSAP = "codigoSAP",
+        numeroDeParte = "numeroDeParte",
+        descripcionCompleta = "descripcionCompleta",
+        fabricante = "fabricante",
+        plataforma = "plataforma",
+        cantidadRequerida = "cantidadRequerida",
+        bodegaDestino = "bodegaDestino",
+        justificacionDeTrasladoSitio = "justificacionDeTrasladoSitio",
+        ticket = "ticket",
+    ),
+    Tabla(
+        bodegaOrigen = "Pereira",
         codigoSAP = "codigoSAP",
         numeroDeParte = "numeroDeParte",
         descripcionCompleta = "descripcionCompleta",
@@ -43,6 +69,16 @@ class MainActivity : AppCompatActivity() {
             adapter.filter.filter(it)
         }
 
+        binding.fabSendEmail.setOnClickListener {
+            val emailIntent = Intent(
+                Intent.ACTION_SENDTO, Uri.fromParts(
+                    "mailto", "manuariash9@gmail.com", null
+                )
+            )
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Inventarios bodega")
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Holi")
+            startActivity(Intent.createChooser(emailIntent, null));
+        }
     }
 
     private fun filterTables(text: String): List<Tabla> {

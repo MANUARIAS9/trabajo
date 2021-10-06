@@ -10,8 +10,9 @@ class LoginDataSource {
             if (username == "manuela" && password == "12345678") {
                 val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
                 Result.Success(fakeUser)
+            } else {
+                throw Exception("error")
             }
-            throw Exception("error")
         } catch (e: Throwable) {
             Result.Error(IOException("Error logging in", e))
         }
