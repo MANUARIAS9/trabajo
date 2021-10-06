@@ -33,8 +33,9 @@ class TablasAdapter(private var allItems: List<Tabla>) :
 
     inner class ViewHolder(private val binding: TablaItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun binding(table: Tabla) {
-            binding.txtCodigoSAP.text = table.codigoSAP
+        fun binding(table: Tabla) = with(binding) {
+            txtCodigoSAP.text = table.codigoSAP
+            txtTicket.text = table.ticket
         }
     }
 
